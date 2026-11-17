@@ -1,0 +1,88 @@
+/* =====================================================================
+   FOTOS DE PILY, PORTADA DEL LIBRO Y FOTOS DE STOCK
+   Fotos de stock: Unsplash (licencia Unsplash, uso comercial libre).
+   ===================================================================== */
+
+/* ---------- Hero con Pily ---------- */
+@media (min-width: 901px) { .hero-grid { grid-template-columns: 1.05fr .95fr; } }
+.hero-visual { position: relative; display: flex; justify-content: center; align-items: flex-end; min-height: 520px; }
+.hero-blob {
+  position: absolute; width: 96%; aspect-ratio: 1; bottom: 4%; left: 50%; transform: translateX(-50%);
+  background: radial-gradient(circle at 35% 30%, #ffd9c9, var(--primary-soft) 60%, #fbd2c1);
+  border-radius: 48% 52% 55% 45% / 52% 45% 55% 48%;
+  animation: blob 14s ease-in-out infinite alternate;
+}
+@keyframes blob {
+  50% { border-radius: 58% 42% 45% 55% / 45% 58% 42% 55%; }
+  100% { border-radius: 44% 56% 50% 50% / 56% 44% 56% 44%; }
+}
+.hero-photo { position: relative; z-index: 1; width: auto; height: auto; max-height: 600px; max-width: 100%; filter: drop-shadow(0 25px 30px rgba(0,0,0,.18)); }
+.hero-visual .quote-card {
+  position: absolute; z-index: 2; left: -8%; bottom: 4%; max-width: 300px;
+  padding: 1.6rem 1.3rem 1.2rem 2.6rem;
+}
+.hero-visual .quote-card cite { font-size: 1.15rem; }
+.hero-visual .quote-card::before { font-size: 3.4rem; }
+
+/* ---------- Retrato en "Sobre Pily" ---------- */
+.portrait { border: 0; background: none; overflow: visible; align-items: flex-end; }
+.portrait::before {
+  content: ''; position: absolute; left: 6%; right: 6%; bottom: 0; aspect-ratio: 1; border-radius: 50%;
+  background: var(--primary-soft) url('../img/background.jpg'); border: 3px solid var(--primary);
+}
+.portrait img { position: relative; width: 100%; height: auto; object-fit: contain; }
+
+/* ---------- Pily en la Academia ---------- */
+.academy-photo { max-height: 440px; width: auto; height: auto; margin: 1.6rem auto 0; filter: drop-shadow(0 20px 25px rgba(0,0,0,.15)); }
+
+/* ---------- Fotos en tarjetas de servicios ---------- */
+.card-img {
+  margin: -1.6rem -1.4rem 1.2rem; width: calc(100% + 2.8rem); max-width: none;
+  height: auto; aspect-ratio: 16/10; object-fit: cover; border-radius: .4rem .4rem 0 0;
+  border-bottom: 3px solid var(--primary);
+}
+.card { overflow: hidden; }
+
+/* ---------- Portadas del blog ---------- */
+.post-card img.cover { padding: 0; width: 100%; height: auto; aspect-ratio: 16/9; object-fit: cover; }
+.post-img { width: 100%; height: auto; aspect-ratio: 16/9; object-fit: cover; border-radius: .4rem; margin: 0 0 1.4rem; }
+.photo-credit { font-size: .8rem; color: var(--base); margin-top: -1rem; margin-bottom: 1.2rem; }
+
+/* ---------- Portada de El Efecto Pancho (recreación en alta resolución) ---------- */
+.book-cover {
+  container-type: inline-size; background: #f5f3f0; color: #333;
+  padding: 0; display: block; overflow: hidden; border-radius: 3px 8px 8px 3px;
+  box-shadow: inset 6px 0 8px -4px rgba(0,0,0,.25), 0 30px 50px -25px rgba(0,0,0,.5);
+}
+.book-cover::before {
+  content: ''; position: absolute; inset: 0;
+  background: url('../img/background.jpg') 0 0 / 50% auto;
+  filter: grayscale(1) brightness(.567) contrast(7.86);
+  mix-blend-mode: multiply; opacity: .55;
+  -webkit-mask: linear-gradient(#000 0 30%, transparent 33% 74%, #000 77%);
+          mask: linear-gradient(#000 0 30%, transparent 33% 74%, #000 77%);
+}
+.bc-author {
+  position: absolute; top: 4%; left: 0; right: 0; text-align: center;
+  font-family: var(--body); font-weight: 600; font-size: 6.2cqw; letter-spacing: .02em; color: #3a3a3a;
+  background: #f5f3f0; width: fit-content; margin: 0 auto; padding: 0 4cqw; z-index: 1;
+}
+.bc-heart { position: absolute; top: 15%; right: 22%; width: 14cqw; z-index: 1; transform: rotate(8deg); }
+.bc-title {
+  position: absolute; top: 37%; left: 9%; right: 6%; z-index: 1;
+  font-family: var(--title); color: #2b2b2b; line-height: .95;
+}
+.bc-title span { display: block; font-size: 13.5cqw; }
+.bc-title .big { font-size: 19cqw; padding-left: 13%; }
+.bc-sub {
+  position: absolute; top: 59%; left: 9%; right: 7%; z-index: 1; margin: 0;
+  font-family: var(--body); font-weight: 400; font-size: 5.1cqw; line-height: 1.3; color: #333;
+}
+
+@media (max-width: 900px) {
+  .hero-visual { min-height: 0; margin-top: 1rem; }
+  .hero-photo { max-height: 440px; }
+  .hero-visual .quote-card { position: relative; left: auto; bottom: auto; margin: -3rem 0 0; max-width: none; }
+  .hero-visual { flex-direction: column; align-items: center; }
+  .hero-blob { width: 78%; bottom: auto; top: 4%; }
+}

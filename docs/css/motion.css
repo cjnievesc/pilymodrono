@@ -1,0 +1,170 @@
+/* =====================================================================
+   MOVIMIENTO — bloques 1 y 2 (se carga después de styles.css)
+   ===================================================================== */
+:root { --ease: cubic-bezier(.22, 1, .36, 1); --wave: clamp(24px, 4vw, 56px); }
+
+/* 1. Separadores en ola: cada sección (y el footer) "muerde" a la anterior */
+main > section:not(:first-child), footer.site { position: relative; }
+main > section:not(:first-child)::before, footer.site::before {
+  content: ''; position: absolute; left: 0; right: 0; top: calc(var(--wave) * -1 + 1px);
+  height: var(--wave); pointer-events: none; z-index: 2;
+  background: inherit;
+  background-position: 0 calc(var(--py, 0px) + var(--wave) - 1px);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 60' preserveAspectRatio='none'%3E%3Cpath d='M0 38C240 6 480 6 720 30s480 30 720 0V60H0z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 60' preserveAspectRatio='none'%3E%3Cpath d='M0 38C240 6 480 6 720 30s480 30 720 0V60H0z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+}
+main > section:nth-of-type(even):not(:first-child)::before { transform: scaleX(-1); }
+.pattern { background-position: 0 var(--py, 0px); }
+
+/* 2. Entradas al hacer scroll */
+.js [data-reveal] {
+  opacity: 0; transform: translateY(28px);
+  transition: opacity .8s var(--ease), transform .8s var(--ease);
+  transition-delay: calc(var(--i, 0) * 90ms);
+}
+.js [data-reveal].in { opacity: 1; transform: none; }
+
+/* 3. Contadores sin salto de ancho */
+.stat b { font-variant-numeric: tabular-nums; }
+
+/* 4. Subrayado dibujado a mano */
+.scribble { position: relative; display: inline-block; white-space: nowrap; }
+.scribble svg { position: absolute; left: -2%; bottom: -.18em; width: 104%; height: .42em; overflow: visible; }
+.scribble path {
+  fill: none; stroke: var(--primary); stroke-width: 6; stroke-linecap: round;
+  stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 1.1s .6s var(--ease) forwards;
+}
+@keyframes draw { to { stroke-dashoffset: 0; } }
+
+/* 5. Cinta de instituciones */
+.marquee {
+  overflow: hidden; background: #fff; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  padding: 1.1rem 0; position: relative; z-index: 3;
+  -webkit-mask: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+          mask: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.marquee-track { display: flex; width: max-content; animation: marquee 38s linear infinite; }
+.marquee:hover .marquee-track { animation-play-state: paused; }
+.marquee-track span {
+  font-family: var(--title); font-size: 1.35rem; color: var(--text-soft); padding: 0 1.6rem;
+  display: flex; align-items: center; gap: 1.6rem; white-space: nowrap;
+}
+.marquee-track span::after { content: '∞'; color: var(--primary); font-family: var(--body); font-weight: 700; padding-left: 1.6rem; }
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+/* 6. Botones que se llenan y tarjetas que se inclinan */
+.btn { position: relative; overflow: hidden; isolation: isolate; transition: color .35s var(--ease), border-color .35s, transform .2s; }
+.btn::before {
+  content: ''; position: absolute; inset: 0; z-index: -1; border-radius: inherit;
+  background: var(--primary-dark); transform: scaleX(0); transform-origin: left;
+  transition: transform .45s var(--ease);
+}
+.btn:hover::before { transform: scaleX(1); }
+.btn:hover { background: var(--primary); }
+.btn.ghost::before { background: var(--primary); }
+.btn.ghost:hover { background: transparent; color: #fff; }
+.btn.light::before { background: var(--primary-dark); }
+.btn.light:hover { background: #fff; color: #fff; border-color: #fff; }
+.btn:active { transform: scale(.97); }
+.card { transition: transform .35s var(--ease), border-color .25s, box-shadow .25s; }
+.card:hover { transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(-4px); }
+.card .more { transition: letter-spacing .3s var(--ease); }
+.card:hover .more { letter-spacing: .03em; }
+
+/* 7. Espiral del logo que gira (recorte del propio logo) */
+.brand { position: relative; display: block; --s: calc(34 / 95); }
+.logo-spin {
+  position: absolute; left: calc(331px * var(--s)); top: calc(24px * var(--s));
+  width: calc(46px * var(--s)); height: calc(46px * var(--s)); border-radius: 50%;
+  background: url('../img/logo.png') calc(-331px * var(--s)) calc(-24px * var(--s)) / calc(487px * var(--s)) auto no-repeat;
+  animation: spin-once 1.4s .3s var(--ease);
+}
+.brand:hover .logo-spin { animation: spin 1.6s var(--ease) infinite; }
+@keyframes spin-once { from { transform: rotate(-360deg); } }
+@keyframes spin { to { transform: rotate(360deg); } }
+.hero, .page-head, footer.site { overflow: hidden; }
+.hero { position: relative; }
+.hero > .container { position: relative; z-index: 1; }
+.deco-spiral { position: absolute; pointer-events: none; opacity: .08; z-index: 0; animation: spin 80s linear infinite; }
+.hero .deco-spiral { width: 560px; right: -160px; top: -120px; }
+footer.site { overflow: visible; }
+footer.site .footer-clip { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+footer.site .deco-spiral { width: 380px; right: -110px; bottom: -150px; opacity: .16; filter: brightness(0) invert(1); }
+footer.site > .container { position: relative; z-index: 1; }
+
+/* 8. Infinito que se dibuja (Academia) */
+.page-head { position: relative; overflow: visible; }
+.page-head > .container { position: relative; z-index: 1; }
+.page-head .infinity-clip { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.infinity { position: absolute; left: 50%; top: 50%; width: min(900px, 130%); transform: translate(-50%, -50%); opacity: .2; }
+.infinity path {
+  fill: none; stroke: var(--primary); stroke-width: 9; stroke-linecap: round;
+  stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 3.2s .2s var(--ease) forwards;
+}
+.levels { position: relative; }
+.levels::before, .levels::after {
+  content: ''; position: absolute; top: 0; bottom: 0; left: 108px; width: 4px; border-radius: 4px;
+  background: var(--primary-soft); z-index: 0;
+}
+.levels::after { background: var(--primary); transform: scaleY(var(--p, 0)); transform-origin: top; }
+.level { position: relative; z-index: 1; }
+
+/* 10. Libro en 3D */
+.book-grid { perspective: 1200px; }
+.book-cover {
+  position: relative;
+  transform: rotateY(var(--ry, -12deg)) rotateX(var(--rx, 4deg));
+  transition: transform .5s var(--ease);
+}
+.book-cover::after {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background: linear-gradient(115deg, rgba(255,255,255,.28) 0%, transparent 40%);
+}
+
+/* 11. Línea de tiempo */
+.timeline-wrap { margin-top: clamp(3rem, 7vw, 5rem); }
+.timeline {
+  position: relative; list-style: none; margin: 2.2rem 0 0; padding: 0;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 2.6rem 1.6rem;
+}
+.tl-item { position: relative; padding-top: 2.4rem; }
+.tl-item::after {
+  content: ''; position: absolute; top: 11px; left: 0; right: -1.6rem; height: 3px;
+  background: linear-gradient(90deg, var(--primary) 50%, var(--primary-soft) 50%) right / 200% 100% no-repeat;
+  transition: background-position 1s var(--ease); transition-delay: calc(var(--i, 0) * 90ms + .2s);
+}
+.tl-item:nth-child(4n)::after, .tl-item:last-child::after { right: 0; }
+.tl-item.in::after { background-position: left; }
+.tl-item::before {
+  content: ''; position: absolute; top: 0; left: 0; width: 25px; height: 25px; border-radius: 50%; z-index: 1;
+  background: #fff; border: 3px solid var(--primary);
+  transition: background .4s, transform .4s var(--ease); transition-delay: calc(var(--i, 0) * 90ms);
+}
+.tl-item.in::before { background: var(--primary); }
+.tl-item small { display: block; font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--base); margin-bottom: .2rem; }
+.tl-item b { display: block; font-family: var(--title); font-weight: 400; color: var(--primary); font-size: 1.3rem; line-height: 1.2; margin-bottom: .3rem; }
+.tl-item p { font-size: 1rem; color: var(--text-soft); margin: 0; }
+
+@media (max-width: 900px) {
+  .timeline { grid-template-columns: 1fr; gap: 1.8rem; padding-left: 2.4rem; }
+  .tl-item { padding-top: 0; }
+  .tl-item::before { left: -2.4rem; }
+  .tl-item::after {
+    top: 25px; bottom: -1.8rem; left: calc(-2.4rem + 11px); right: auto; width: 3px; height: auto;
+    background: linear-gradient(180deg, var(--primary) 50%, var(--primary-soft) 50%) bottom / 100% 200% no-repeat;
+  }
+  .tl-item.in::after { background-position: top; }
+  .tl-item:last-child::after { display: none; }
+  .levels::before, .levels::after { display: none; }
+  .hero .deco-spiral { width: 340px; right: -140px; top: -90px; }
+}
+
+/* Accesibilidad: quien prefiere menos movimiento ve todo quieto y completo */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .js [data-reveal] { opacity: 1; transform: none; }
+  .scribble path, .infinity path { stroke-dashoffset: 0; }
+  .levels::after { transform: none; }
+  .tl-item::after { background-position: left; }
+  .tl-item::before { background: var(--primary); }
+}
